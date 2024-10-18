@@ -1,0 +1,50 @@
+name : CI #워크플로우의 이름 지정
+
+#on
+#워크플로우가 시작될 조건을 지정
+#push
+#코드가 repo에 push될 때 실행된다.
+#branches: [ main ]
+#main 브랜치에 코드가 푸시될때만 실행한다.
+on:
+  push:
+    branches: [main]
+#jobs
+#워크플로우 내에서 수행할 작업을 정의하는 부분
+#여러개의 작업을 설정할 수 있으며, 작업은 병렬 또는 순차적으로 실행할 수 있다.
+#build
+#워크플로우에서 하나의 작업을 의미한다.
+#runs-on
+#작업이 실행되는 환경을 정의하는 키워드
+#이 워크플로우는 최신 버전의 Ubuntu 리눅스 환경을 실행된다.
+#Github Actions는 다양한 실행환경을 제공하고 있다.
+jobs:
+  build:
+    runs-on: ubuntu-latest #실행 환경 지정
+
+#실행 스텝 지정
+#step
+#각 작업 내의 실행되는 단계를 정의하는 섹션이다.
+#각 단계에서는 실행할 명령이나 액션을 정의할 수 있다.
+#uses
+#외부 액션이나 Github에서 제공하는 공식 액션을 가져와서 실행한다.
+#actions/checkout
+#Github 레포지토리의 소스코드를 워크플로우 실행환경에 다운로드하는 역할을 한다.
+#actions/setup-java 
+#Java 환경을 설정하는 액션이다.
+#이 액션을 Java 개발환경을 설정한다.
+#distribution :corretto
+#AWS에서 제공하는 자바 배포판
+steps:
+  - uses: actions/checkout@v3
+
+  - uses: actions/setup-java@v3
+    with:
+      distribution: 'corretto'
+      java-version: '17'
+
+  - name: Grant execute permission for gradlew
+    run: chmod +x gradlew 
+
+  - name: Build with Gradle
+    run: ./gradlew clean build
