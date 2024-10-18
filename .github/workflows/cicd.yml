@@ -75,5 +75,5 @@ jobs:
           application_name: springboot-developer
           environment_name: Springboot-developer-env
           version_label: github-action-${{steps.current-time.outputs.formattedTime}}
-          region: ap-northeast-2
+          region: en-north-1
           deployment_package: ./build/libs/${{env.artifact}}
